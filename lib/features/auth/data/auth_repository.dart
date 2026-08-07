@@ -8,6 +8,10 @@ class AuthRepository {
 
   AuthRepository(this._supabase);
 
+  Session? get currentSession => _supabase.auth.currentSession;
+
+  Stream<AuthState> get authStateChange => _supabase.auth.onAuthStateChange;
+
   Future<Session?> signIn({
     required String email,
     required String password,
@@ -59,4 +63,57 @@ class AuthRepository {
       throw const UnknownException();
     }
   }
+
+  Future<Map<String, dynamic>?> getCurrentUserProfile() async {
+    try {
+      final User? user = _supabase.auth.currentUser;
+      if (user == null) return null;
+
+      return await _supabase
+          .from('profiles')
+          .select()
+          .eq('id', user.id)
+          .maybeSingle();
+    } on PostgrestException {
+      throw const ServerException();
+    } on SocketException {
+      throw const NetworkException();
+    } catch (_) {
+      throw const UnknownException();
+    }
+  }
+
+  Future<void> deactivateAccount() async {
+    try {
+      final User? currentUser = _supabase.auth.currentUser;
+      if (currentUser == null) return;
+      await _supabase
+          .from('profiles')
+          .update({
+            'is_active': false,
+            'full_name': 'Deleted User',
+            'phone': null,
+            'avatar_url': null,
+            'updated_at': DateTime.now().toIso8601String(),
+          })
+          .eq('id', currentUser.id);
+      await signOut();
+    } on PostgrestException {
+      throw const ServerException();
+    } on SocketException {
+      throw const ServerException();
+    } catch (_) {
+      throw const UnknownException();
+    }
+  }
+
+  Future<void> signOut() async {
+    try {
+      await _supabase.auth.signOut();
+    } catch (_) {
+      throw const UnknownException();
+    }
+  }
+
+  String? get accessToken => currentSession?.accessToken;
 }
