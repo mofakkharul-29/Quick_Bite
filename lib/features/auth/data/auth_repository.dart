@@ -10,7 +10,7 @@ class AuthRepository {
 
   Session? get currentSession => _supabase.auth.currentSession;
 
-  Stream<AuthState> get authStateChange => _supabase.auth.onAuthStateChange;
+  Stream<AuthState> get authStateChanges => _supabase.auth.onAuthStateChange;
 
   Future<Session?> signIn({
     required String email,
@@ -18,8 +18,10 @@ class AuthRepository {
   }) async {
     try {
       final AuthResponse response = await _supabase.auth.signInWithPassword(
+        email: email,
         password: password,
       );
+
       return response.session;
     } on AuthApiException catch (e) {
       if (e.statusCode == '400' || e.statusCode == '401') {
@@ -41,16 +43,19 @@ class AuthRepository {
   }) async {
     try {
       final AuthResponse response = await _supabase.auth.signUp(
+        email: email,
         password: password,
       );
+
       final User? user = response.user;
       if (user != null) {
-        await _supabase.from('profiles').insert({
+        _supabase.from('profiles').insert({
           'id': user.id,
           'full_name': fullName,
           'phone': phone,
         });
       }
+
       return response.session;
     } on AuthApiException catch (e) {
       if (e.message.toLowerCase().contains('already registered')) {
@@ -83,10 +88,21 @@ class AuthRepository {
     }
   }
 
+  Future<void> signOut() async {
+    try {
+      await _supabase.auth.signOut();
+    } catch (_) {
+      throw const UnknownException();
+    }
+  }
+
   Future<void> deactivateAccount() async {
     try {
-      final User? currentUser = _supabase.auth.currentUser;
-      if (currentUser == null) return;
+      final User? user = _supabase.auth.currentUser;
+      if (user == null) {
+        return;
+      }
+
       await _supabase
           .from('profiles')
           .update({
@@ -96,20 +112,12 @@ class AuthRepository {
             'avatar_url': null,
             'updated_at': DateTime.now().toIso8601String(),
           })
-          .eq('id', currentUser.id);
+          .eq('id', user.id);
       await signOut();
     } on PostgrestException {
       throw const ServerException();
     } on SocketException {
-      throw const ServerException();
-    } catch (_) {
-      throw const UnknownException();
-    }
-  }
-
-  Future<void> signOut() async {
-    try {
-      await _supabase.auth.signOut();
+      throw const NetworkException();
     } catch (_) {
       throw const UnknownException();
     }
