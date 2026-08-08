@@ -49,7 +49,7 @@ class AuthRepository {
 
       final User? user = response.user;
       if (user != null) {
-        _supabase.from('profiles').insert({
+        await _supabase.from('profiles').insert({
           'id': user.id,
           'full_name': fullName,
           'phone': phone,

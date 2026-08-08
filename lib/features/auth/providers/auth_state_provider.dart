@@ -13,9 +13,13 @@ final authStateProvider = FutureProvider<AppAuthState>((ref) async {
   }
 
   final profile = await authRepository.getCurrentUserProfile();
-  final isActive = profile?['is_active'] as bool? ?? false;
+  if (profile == null) {
+    return AppAuthState.unauthenticated;
+  }
 
-  if (profile == null || !isActive) {
+  final isActive = profile['is_active'] as bool? ?? true;
+
+  if (!isActive) {
     await authRepository.signOut();
     return AppAuthState.unauthenticated;
   }
