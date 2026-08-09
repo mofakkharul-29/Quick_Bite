@@ -45,6 +45,14 @@ class AppRouter {
           return loginPath;
         }
 
+        if(authState.value == AppAuthState.authenticated && location == splashPath) {
+          return homePath;
+        }
+
+        if(authState.value == AppAuthState.authenticated && access == RouteAccess.public) {
+          return homePath;
+        }
+
         return null;
       },
       routes: appRoutes

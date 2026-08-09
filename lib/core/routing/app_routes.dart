@@ -5,7 +5,7 @@ import 'package:quick_bite/core/routing/route_access.dart';
 import 'package:quick_bite/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:quick_bite/features/auth/presentation/screens/login_screen.dart';
 import 'package:quick_bite/features/auth/presentation/screens/register_screen.dart';
-import 'package:quick_bite/features/auth/presentation/screens/splash_screen.dart';
+import 'package:quick_bite/features/splash/presentation/splash_screen.dart';
 import 'package:quick_bite/features/restaurants/presentation/home_screen.dart';
 
 const List<AppRouteConfig> appRoutes = [
