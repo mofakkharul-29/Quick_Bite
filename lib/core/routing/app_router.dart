@@ -7,6 +7,7 @@ import 'package:quick_bite/core/routing/app_route_config.dart';
 import 'package:quick_bite/core/routing/app_routes.dart';
 import 'package:quick_bite/core/routing/route_access.dart';
 import 'package:quick_bite/features/auth/providers/auth_state_provider.dart';
+import 'package:quick_bite/features/splash/provider/splash_ready_provider.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -14,6 +15,7 @@ class AppRouter {
 
   static final Provider<GoRouter> appRouterProvider = Provider<GoRouter>((ref) {
     final authState = ref.watch(authStateProvider);
+    final isSplashReady = ref.watch(splashReadyProvider);
 
     return GoRouter(
       initialLocation: splashPath,
@@ -23,8 +25,8 @@ class AppRouter {
       redirect: (context, state) {
         final location = state.matchedLocation;
 
-        if (authState.isLoading && location != splashPath) {
-          return splashPath;
+        if (!isSplashReady || authState.isLoading) {
+          return location == splashPath ? null : splashPath;
         }
 
         final AppRouteConfig? currentRoute = appRoutes.firstWhereOrNull(
@@ -34,22 +36,19 @@ class AppRouter {
         if (currentRoute == null) return null;
 
         final RouteAccess access = currentRoute.access;
+        final isAuthenticated = authState.value == AppAuthState.authenticated;
+        final isUnauthenticated =
+            authState.value == AppAuthState.unauthenticated;
 
-        if (authState.value == AppAuthState.unauthenticated &&
-            location == splashPath) {
+        if (location == splashPath) {
+          return isAuthenticated ? homePath : loginPath;
+        }
+
+        if (isUnauthenticated && access == RouteAccess.authenticated) {
           return loginPath;
         }
 
-        if (authState.value == AppAuthState.unauthenticated &&
-            access == RouteAccess.authenticated) {
-          return loginPath;
-        }
-
-        if(authState.value == AppAuthState.authenticated && location == splashPath) {
-          return homePath;
-        }
-
-        if(authState.value == AppAuthState.authenticated && access == RouteAccess.public) {
+        if (isAuthenticated && access == RouteAccess.public) {
           return homePath;
         }
 
