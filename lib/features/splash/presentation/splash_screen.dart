@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quick_bite/core/startup/app_asset_preloader.dart';
 import 'package:quick_bite/core/theme/app_colors.dart';
 import 'package:quick_bite/core/theme/app_spacing.dart';
 import 'package:quick_bite/features/splash/provider/splash_ready_provider.dart';
@@ -59,10 +60,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     _controller.forward();
 
-    _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        ref.read(splashReadyProvider.notifier).state = true;
-      }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _runStartup();
     });
   }
 
@@ -70,6 +69,21 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<void> _runStartup() async {
+    try {
+      await Future.wait([
+        _controller.forward().orCancel,
+        AppAssetPreloader.preload(context),
+      ]);
+    } catch (e) {
+      debugPrint('Startup optimization failed: $e');
+    }
+
+    if (!mounted) return;
+
+    ref.read(splashReadyProvider.notifier).state = true;
   }
 
   @override
