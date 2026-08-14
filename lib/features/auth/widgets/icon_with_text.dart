@@ -8,21 +8,24 @@ class IconWithText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Icon(
-          Icons.shopping_bag_rounded,
-          size: 120,
-          color: AppColors.primary,
+        const SizedBox(
+          height: 110,
+          child: Icon(
+            Icons.shopping_bag_rounded,
+            color: AppColors.primary,
+            size: 110,
+          ),
         ),
 
         RichText(
-          text: TextSpan(
-            style: const TextStyle(
+          text: const TextSpan(
+            style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w600,
               color: AppColors.textPrimary,
               fontFamily: 'Poppins',
             ),
-            children: const <TextSpan>[
+            children: <TextSpan>[
               TextSpan(text: 'Quick'),
               TextSpan(
                 text: 'Bite',
