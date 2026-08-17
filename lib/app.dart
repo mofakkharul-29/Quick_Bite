@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_bite/core/routing/app_router.dart';
+import 'package:quick_bite/core/theme/app_theme.dart';
 
 class QuickBiteApp extends ConsumerWidget {
   const QuickBiteApp({super.key});
@@ -13,11 +14,12 @@ class QuickBiteApp extends ConsumerWidget {
     return MaterialApp.router(
       title: 'QuickBite',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.orange,
-        scaffoldBackgroundColor: Colors.white,
-      ),
+      theme: AppTheme.lightTheme,
+      // theme: ThemeData(
+      //   useMaterial3: true,
+      //   colorSchemeSeed: Colors.orange,
+      //   scaffoldBackgroundColor: Colors.white,
+      // ),
       routerConfig: router,
     );
   }

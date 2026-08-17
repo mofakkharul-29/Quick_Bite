@@ -71,7 +71,12 @@ class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.surface,
+      prefixIconColor: AppColors.textSecondary,
 
+      labelStyle: const TextStyle(
+        color: AppColors.textSecondary,
+        fontWeight: FontWeight.w400,
+      ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
 
       border: OutlineInputBorder(
@@ -141,6 +146,11 @@ class AppTheme {
       bodyLarge: TextStyle(color: AppColors.textPrimary),
       bodyMedium: TextStyle(color: AppColors.textPrimary),
       bodySmall: TextStyle(color: AppColors.textSecondary),
+    ),
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: AppColors.primaryLight,
+      selectionColor: AppColors.primaryLight,
+      selectionHandleColor: AppColors.primaryLight,
     ),
   );
 }
