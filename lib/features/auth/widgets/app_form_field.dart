@@ -10,6 +10,7 @@ class AppFormField extends StatelessWidget {
   final String? errorText;
   final bool obscureText;
   final IconData? icon;
+  final IconData? suffixIcon;
   final String labelText;
   final void Function(String)? onChanged;
 
@@ -21,6 +22,7 @@ class AppFormField extends StatelessWidget {
     this.errorText,
     this.keyboardType,
     this.textInputAction,
+    this.suffixIcon,
     this.icon,
     this.obscureText = false,
     this.onChanged,
@@ -44,42 +46,15 @@ class AppFormField extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
           child: Icon(icon, size: AppSpacing.mLg),
         ),
+        suffixIcon: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+          child: IconButton(
+            onPressed: () {},
+            icon: Icon(suffixIcon),
+            highlightColor: const Color(0x00000000),
+          ),
+        ),
       ),
-      // decoration: InputDecoration(
-      //   errorText: errorText,
-      //   errorStyle: const TextStyle(
-      //     color: AppColors.error,
-      //     fontWeight: FontWeight.w400,
-      //   ),
-      //   label: Text(
-      //     labelText,
-      //     style: const TextStyle(
-      //       color: AppColors.textSecondary,
-      //       fontWeight: FontWeight.w400,
-      //     ),
-      //   ),
-      //   prefixIcon: Padding(
-      //     padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-      //     child: Icon(icon, size: AppSpacing.mLg),
-      //   ),
-      //   prefixIconColor: AppColors.textSecondary,
-      //   contentPadding: const EdgeInsets.symmetric(
-      //     vertical: AppSpacing.fieldSize,
-      //   ),
-      //   enabledBorder: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(AppSpacing.sm),
-      //     borderSide: BorderSide(color: AppColors.border, width: 2.0),
-      //   ),
-      //   focusedBorder: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(AppSpacing.sm),
-      //     borderSide: BorderSide(color: AppColors.primaryLight, width: 1.5),
-      //   ),
-
-      //   errorBorder: OutlineInputBorder(
-      //     borderRadius: BorderRadius.circular(AppSpacing.sm),
-      //     borderSide: BorderSide(color: AppColors.error, width: 1.5),
-      //   ),
-      // ),
     );
   }
 }

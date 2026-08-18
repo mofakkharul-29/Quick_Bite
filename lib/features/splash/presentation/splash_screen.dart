@@ -101,8 +101,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
               child: ScaleTransition(
                 scale: _iconScale,
                 child: Container(
-                  width: 120,
-                  height: 120,
+                  width: 100,
+                  height: 100,
+                  alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: AppColors.primary,
                     borderRadius: BorderRadius.circular(28),

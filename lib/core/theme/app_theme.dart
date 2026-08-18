@@ -53,9 +53,14 @@ class AppTheme {
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
         minimumSize: const Size(double.infinity, 56),
+        padding: EdgeInsets.symmetric(vertical: 18),
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+        textStyle: const TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.w700,
+          fontFamily: 'Poppins',
+        ),
       ),
     ),
 
@@ -64,6 +69,8 @@ class AppTheme {
       style: TextButton.styleFrom(
         foregroundColor: AppColors.primary,
         textStyle: const TextStyle(fontWeight: FontWeight.w600),
+        overlayColor: const Color(0x00000000),
+        surfaceTintColor: const Color(0x00000000),
       ),
     ),
 

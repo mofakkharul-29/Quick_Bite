@@ -5,7 +5,7 @@ import 'package:quick_bite/features/auth/widgets/icon_with_text.dart';
 class HeaderSection extends StatelessWidget {
   const HeaderSection({super.key});
 
-  static const double _height = 230;
+  static const double _height = 270;
 
   @override
   Widget build(BuildContext context) {
@@ -14,27 +14,30 @@ class HeaderSection extends StatelessWidget {
       child: Stack(
         children: [
           const Positioned(left: AppSpacing.md, top: 15, child: IconWithText()),
+
           Positioned(
-            top: 15,
-            left: 180,
+            top: 10,
+            left: 250,
             child: Image.asset(
               'assets/images/tomato.png',
               height: 50,
               width: 50,
             ),
           ),
+
           Positioned(
-            top: 90,
-            left: 160,
+            top: 80,
+            left: 230,
             child: Image.asset('assets/images/leaf.png', height: 45, width: 45),
           ),
+
           Positioned(
             top: 20,
             right: 0,
             child: Image.asset(
               'assets/images/login-food.png',
-              width: 180,
-              height: 200,
+              width: 110,
+              height: 180,
               fit: BoxFit.cover,
               alignment: Alignment.centerLeft,
               excludeFromSemantics: true,
