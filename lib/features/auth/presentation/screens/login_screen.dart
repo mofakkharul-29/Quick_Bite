@@ -35,11 +35,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _emailFocus.dispose();
     _passwordFocus.dispose();
+    super.dispose();
   }
 
   @override
@@ -96,6 +96,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         const SizedBox(height: AppSpacing.md),
 
                         ElevatedButton(onPressed: () {}, child: Text('Login')),
+
                         const SizedBox(height: AppSpacing.mLg),
                         const AppDivider(),
                         const SizedBox(height: AppSpacing.mLg),
