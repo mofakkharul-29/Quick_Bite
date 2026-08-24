@@ -12,7 +12,9 @@ class AppFormField extends StatelessWidget {
   final IconData? icon;
   final IconData? suffixIcon;
   final String labelText;
+  final String? Function(String?)? validator;
   final void Function(String)? onChanged;
+  final void Function(String?)? onSaved;
 
   const AppFormField({
     super.key,
@@ -26,6 +28,8 @@ class AppFormField extends StatelessWidget {
     this.icon,
     this.obscureText = false,
     this.onChanged,
+    this.validator,
+    this.onSaved,
   });
 
   @override
@@ -33,11 +37,16 @@ class AppFormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       onChanged: onChanged,
+      validator: validator,
+      onSaved: onSaved,
       focusNode: focusNode,
       keyboardType: keyboardType,
       textInputAction: textInputAction,
       obscureText: obscureText,
       dragStartBehavior: DragStartBehavior.start,
+      onTapOutside: (_) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 17),
       decoration: InputDecoration(
         errorText: errorText,

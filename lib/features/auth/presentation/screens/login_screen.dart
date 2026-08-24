@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_bite/core/theme/app_spacing.dart';
+import 'package:quick_bite/features/auth/providers/login_form_status_provider.dart';
 import 'package:quick_bite/features/auth/widgets/app_divider.dart';
 import 'package:quick_bite/features/auth/widgets/app_form_field.dart';
 import 'package:quick_bite/features/auth/widgets/bottom_text_button.dart';
@@ -44,6 +45,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final formStatus = ref.watch(loginFormStatusProvider);
+    final formNotifier = ref.read(loginFormStatusProvider.notifier);
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -71,11 +75,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         AppFormField(
                           controller: _emailController,
                           focusNode: _emailFocus,
+                          errorText: formStatus.emailError,
                           icon: Icons.email_outlined,
                           labelText: 'Email',
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.done,
-                          onChanged: (value) {},
+                          onChanged: (value) =>
+                              formNotifier.updateEmail(value: value),
                         ),
 
                         const SizedBox(height: AppSpacing.mLg),
@@ -84,9 +90,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           controller: _passwordController,
                           focusNode: _passwordFocus,
                           labelText: 'Password',
+                          errorText: formStatus.passwordError,
                           icon: Icons.lock_outline_rounded,
                           suffixIcon: Icons.visibility_outlined,
-                          onChanged: (value) {},
+                          onChanged: (value) =>
+                              formNotifier.updatePassword(value: value),
                         ),
 
                         const SizedBox(height: AppSpacing.sm),
@@ -98,8 +106,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ElevatedButton(onPressed: () {}, child: Text('Login')),
 
                         const SizedBox(height: AppSpacing.mLg),
+
                         const AppDivider(),
+
                         const SizedBox(height: AppSpacing.mLg),
+
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
