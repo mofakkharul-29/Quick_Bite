@@ -25,7 +25,7 @@ class LoginFormNotifier extends Notifier<LoginFormState> {
 
   String? _validatePassword(String value) {
     if (value.isEmpty) {
-      return 'Password is required';
+      return 'Password is required!';
     }
     if (value.length < 6) {
       return 'Password must be at least of 6 characters';

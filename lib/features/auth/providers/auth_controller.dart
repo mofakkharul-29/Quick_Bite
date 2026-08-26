@@ -3,6 +3,10 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_bite/features/auth/providers/auth_repository_provider.dart';
 
+final authControllerProvider = AsyncNotifierProvider<AuthController, void>(
+  () => AuthController(),
+);
+
 class AuthController extends AsyncNotifier<void> {
   @override
   FutureOr<void> build() {}

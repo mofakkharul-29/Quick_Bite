@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:quick_bite/core/constants/route_paths.dart';
 import 'package:quick_bite/core/theme/app_spacing.dart';
+import 'package:quick_bite/features/auth/providers/auth_controller.dart';
 import 'package:quick_bite/features/auth/providers/login_form_status_provider.dart';
 import 'package:quick_bite/features/auth/widgets/app_divider.dart';
 import 'package:quick_bite/features/auth/widgets/app_form_field.dart';
@@ -47,6 +50,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final formStatus = ref.watch(loginFormStatusProvider);
     final formNotifier = ref.read(loginFormStatusProvider.notifier);
+    final asyncAuthController = ref.watch(authControllerProvider);
+
+    ref.listen(authControllerProvider, (previous, next) {
+      if (next is AsyncError) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(next.error.toString())));
+      }
+    });
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -114,7 +126,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                         const SizedBox(height: AppSpacing.md),
 
-                        ElevatedButton(onPressed: () {}, child: Text('Login')),
+                        ElevatedButton(
+                          onPressed: asyncAuthController.isLoading
+                              ? null
+                              : () {
+                                  ref
+                                      .read(authControllerProvider.notifier)
+                                      .login(
+                                        email: _emailController.text,
+                                        password: _passwordController.text,
+                                      );
+                                },
+                          child: asyncAuthController.isLoading
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Text('Login'),
+                        ),
 
                         const SizedBox(height: AppSpacing.mLg),
 
@@ -133,7 +166,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                         const SizedBox(height: AppSpacing.md),
 
-                        BottomTextButton(onPressed: () {}),
+                        BottomTextButton(
+                          onPressed: () {
+                            context.go(registerPath);
+                          },
+                        ),
                       ],
                     ),
                   ),
