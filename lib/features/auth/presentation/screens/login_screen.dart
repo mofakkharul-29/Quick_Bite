@@ -80,8 +80,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           labelText: 'Email',
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.done,
-                          onChanged: (value) =>
-                              formNotifier.updateEmail(value: value),
+                          onChanged: (value) {
+                            formNotifier.updateEmail(value: value);
+                          },
                         ),
 
                         const SizedBox(height: AppSpacing.mLg),
@@ -93,13 +94,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           errorText: formStatus.passwordError,
                           icon: Icons.lock_outline_rounded,
                           suffixIcon: Icons.visibility_outlined,
-                          onChanged: (value) =>
-                              formNotifier.updatePassword(value: value),
+                          onChanged: (value) {
+                            formNotifier.updatePassword(value: value);
+                          },
                         ),
 
                         const SizedBox(height: AppSpacing.sm),
 
-                        const RemForgot(),
+                        RemForgot(
+                          onChanged: (_) {
+                            formNotifier.updateCheckbox();
+                          },
+                          value: formStatus.isRemember,
+                        ),
 
                         const SizedBox(height: AppSpacing.md),
 

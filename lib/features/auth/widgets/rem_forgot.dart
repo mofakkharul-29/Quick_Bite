@@ -3,7 +3,9 @@ import 'package:quick_bite/core/theme/app_colors.dart';
 import 'package:quick_bite/core/theme/app_spacing.dart';
 
 class RemForgot extends StatelessWidget {
-  const RemForgot({super.key});
+  final void Function(bool?)? onChanged;
+  final bool value;
+  const RemForgot({super.key, this.onChanged, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -11,17 +13,16 @@ class RemForgot extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        InkWell(
-          child: Container(
-            height: 24,
-            width: 24,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              border: BoxBorder.all(color: AppColors.border, width: 2.0),
-            ),
+        Checkbox(
+          value: value,
+          onChanged: onChanged,
+          checkColor: AppColors.background,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          visualDensity: VisualDensity.compact,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(4),
           ),
         ),
-
         const SizedBox(width: AppSpacing.sm),
 
         bodyText(

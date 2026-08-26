@@ -15,7 +15,9 @@ class LoginFormNotifier extends Notifier<LoginFormState> {
     state = state.copyWith(passwordError: _validatePassword(value));
   }
 
-  void updateRememberMe({required bool value}) {}
+  void updateCheckbox() {
+    state = state.copyWith(isRemember: !state.isRemember);
+  }
 
   String? _validatePassword(String value) {
     if (value.isEmpty) {
