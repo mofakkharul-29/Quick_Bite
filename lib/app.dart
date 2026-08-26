@@ -15,11 +15,6 @@ class QuickBiteApp extends ConsumerWidget {
       title: 'QuickBite',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      // theme: ThemeData(
-      //   useMaterial3: true,
-      //   colorSchemeSeed: Colors.orange,
-      //   scaffoldBackgroundColor: Colors.white,
-      // ),
       routerConfig: router,
     );
   }
