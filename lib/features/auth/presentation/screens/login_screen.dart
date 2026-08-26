@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_bite/core/constants/route_paths.dart';
+import 'package:quick_bite/core/theme/app_colors.dart';
 import 'package:quick_bite/core/theme/app_spacing.dart';
 import 'package:quick_bite/features/auth/providers/auth_controller.dart';
 import 'package:quick_bite/features/auth/providers/login_form_status_provider.dart';
@@ -12,6 +13,7 @@ import 'package:quick_bite/features/auth/widgets/bottom_text_button.dart';
 import 'package:quick_bite/features/auth/widgets/header_section.dart';
 import 'package:quick_bite/features/auth/widgets/login_buttons.dart';
 import 'package:quick_bite/features/auth/widgets/rem_forgot.dart';
+import 'package:quick_bite/features/shared/widgets/app_snackbar.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -54,9 +56,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     ref.listen(authControllerProvider, (previous, next) {
       if (next is AsyncError) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(next.error.toString())));
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            AppSnackbar.appSnackbar(
+              text: next.error.toString(),
+              icon: Icons.error_outline_rounded,
+              iconColor: Colors.white,
+              textColor: Colors.white,
+              backgroundColor: AppColors.error,
+            ),
+          );
       }
     });
 
