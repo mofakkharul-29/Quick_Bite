@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:quick_bite/core/constants/route_paths.dart';
 import 'package:quick_bite/core/theme/app_colors.dart';
 import 'package:quick_bite/core/theme/app_spacing.dart';
 
@@ -34,7 +36,9 @@ class RemForgot extends StatelessWidget {
         const Spacer(),
 
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            context.go(forgotPasswordPath);
+          },
           child: bodyText(
             text: 'Forgot Password?',
             context: context,

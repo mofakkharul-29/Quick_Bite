@@ -15,6 +15,7 @@ class AppFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final void Function(String?)? onSaved;
+  final void Function()? onSuffixTapped;
 
   const AppFormField({
     super.key,
@@ -29,6 +30,7 @@ class AppFormField extends StatelessWidget {
     this.obscureText = false,
     this.onChanged,
     this.validator,
+    this.onSuffixTapped,
     this.onSaved,
   });
 
@@ -58,7 +60,7 @@ class AppFormField extends StatelessWidget {
         suffixIcon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
           child: IconButton(
-            onPressed: () {},
+            onPressed: onSuffixTapped,
             icon: Icon(suffixIcon),
             highlightColor: const Color(0x00000000),
           ),

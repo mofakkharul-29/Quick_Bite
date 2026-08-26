@@ -19,6 +19,10 @@ class LoginFormNotifier extends Notifier<LoginFormState> {
     state = state.copyWith(isRemember: !state.isRemember);
   }
 
+  void updateVisibility() {
+    state = state.copyWith(isPasswordVisible: !state.isPasswordVisible);
+  }
+
   String? _validatePassword(String value) {
     if (value.isEmpty) {
       return 'Password is required';

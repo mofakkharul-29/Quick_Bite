@@ -4,17 +4,20 @@ class LoginFormState {
   final String? emailError;
   final String? passwordError;
   final bool isRemember;
+  final bool isPasswordVisible;
 
   const LoginFormState({
     this.emailError,
     this.passwordError,
     this.isRemember = false,
+    this.isPasswordVisible = false,
   });
 
   LoginFormState copyWith({
     Object? emailError = _unset,
     Object? passwordError = _unset,
     bool? isRemember,
+    bool? isPasswordVisible,
   }) {
     return LoginFormState(
       emailError: identical(emailError, _unset)
@@ -24,6 +27,7 @@ class LoginFormState {
           ? this.passwordError
           : passwordError as String?,
       isRemember: isRemember ?? this.isRemember,
+      isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
     );
   }
 }

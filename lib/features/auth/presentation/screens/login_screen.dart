@@ -93,10 +93,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           labelText: 'Password',
                           errorText: formStatus.passwordError,
                           icon: Icons.lock_outline_rounded,
-                          suffixIcon: Icons.visibility_outlined,
+                          obscureText: formStatus.isPasswordVisible,
+                          suffixIcon: !formStatus.isPasswordVisible
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
                           onChanged: (value) {
                             formNotifier.updatePassword(value: value);
                           },
+                          onSuffixTapped: () => formNotifier.updateVisibility(),
                         ),
 
                         const SizedBox(height: AppSpacing.sm),
