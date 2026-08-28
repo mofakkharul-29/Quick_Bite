@@ -139,12 +139,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ElevatedButton(
                           onPressed: asyncAuthController.isLoading
                               ? null
-                              : () {
-                                  ref
+                              : () async {
+                                  await ref
                                       .read(authControllerProvider.notifier)
                                       .login(
                                         email: _emailController.text,
                                         password: _passwordController.text,
+                                        isRemember: formStatus.isRemember,
                                       );
                                 },
                           child: asyncAuthController.isLoading
