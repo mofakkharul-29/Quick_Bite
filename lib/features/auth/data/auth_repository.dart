@@ -88,9 +88,9 @@ class AuthRepository {
     }
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut({SignOutScope scope = SignOutScope.global}) async {
     try {
-      await _supabase.auth.signOut();
+      await _supabase.auth.signOut(scope: scope);
     } catch (_) {
       throw const UnknownException();
     }

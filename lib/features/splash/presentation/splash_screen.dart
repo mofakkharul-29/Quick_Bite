@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quick_bite/core/startup/app_asset_preloader.dart';
 import 'package:quick_bite/core/theme/app_colors.dart';
 import 'package:quick_bite/core/theme/app_spacing.dart';
+import 'package:quick_bite/features/auth/providers/auth_bootstrap_provider.dart';
 import 'package:quick_bite/features/splash/provider/splash_ready_provider.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -58,8 +59,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       ),
     );
 
-    _controller.forward();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _runStartup();
     });
@@ -76,6 +75,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       await Future.wait([
         _controller.forward().orCancel,
         AppAssetPreloader.preload(context),
+        ref.read(authBootstrapProvider.future),
       ]);
     } catch (e) {
       debugPrint('Startup optimization failed: $e');
