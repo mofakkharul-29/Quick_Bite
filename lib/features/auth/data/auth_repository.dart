@@ -45,17 +45,8 @@ class AuthRepository {
       final AuthResponse response = await _supabase.auth.signUp(
         email: email,
         password: password,
+        data: {'full_name': fullName, 'phone': phone},
       );
-
-      final User? user = response.user;
-      if (user != null) {
-        await _supabase.from('profiles').insert({
-          'id': user.id,
-          'full_name': fullName,
-          'phone': phone,
-        });
-      }
-
       return response.session;
     } on AuthApiException catch (e) {
       if (e.message.toLowerCase().contains('already registered')) {
