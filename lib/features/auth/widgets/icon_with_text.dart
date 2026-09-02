@@ -4,7 +4,8 @@ import 'package:quick_bite/core/theme/app_spacing.dart';
 import 'package:quick_bite/features/auth/widgets/greetings.dart';
 
 class IconWithText extends StatelessWidget {
-  const IconWithText({super.key});
+  final bool isRegister;
+  const IconWithText({super.key, this.isRegister = false});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class IconWithText extends StatelessWidget {
 
         const SizedBox(height: AppSpacing.lg),
 
-        const Greetings(),
+        Greetings(isRegister: isRegister),
       ],
     );
   }

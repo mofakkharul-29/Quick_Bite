@@ -3,19 +3,25 @@ import 'package:quick_bite/core/theme/app_colors.dart';
 import 'package:quick_bite/core/theme/app_spacing.dart';
 
 class Greetings extends StatelessWidget {
-  const Greetings({super.key});
+  final bool isRegister;
+  const Greetings({super.key, this.isRegister = false});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Welcome Back!', style: Theme.of(context).textTheme.headlineLarge),
+        Text(
+          isRegister ? 'Welcome!' : 'Welcome Back!',
+          style: Theme.of(context).textTheme.headlineLarge,
+        ),
 
         const SizedBox(height: AppSpacing.md),
 
         Text(
-          'Login to continue to your account.',
+          isRegister
+              ? 'Create your account to continue'
+              : 'Login to continue to your account.',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             fontSize: 16,
             color: AppColors.textSecondary,

@@ -1,4 +1,4 @@
-const _unset = Object();
+const Object _unset = Object();
 
 class LoginFormState {
   final String? emailError;

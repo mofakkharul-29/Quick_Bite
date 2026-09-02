@@ -3,7 +3,8 @@ import 'package:quick_bite/core/theme/app_spacing.dart';
 import 'package:quick_bite/features/auth/widgets/icon_with_text.dart';
 
 class HeaderSection extends StatelessWidget {
-  const HeaderSection({super.key});
+  final bool isRegister;
+  const HeaderSection({super.key, this.isRegister = false});
 
   static const double _height = 270;
 
@@ -13,7 +14,11 @@ class HeaderSection extends StatelessWidget {
       height: _height,
       child: Stack(
         children: [
-          const Positioned(left: AppSpacing.md, top: 15, child: IconWithText()),
+          Positioned(
+            left: AppSpacing.md,
+            top: 15,
+            child: IconWithText(isRegister: isRegister),
+          ),
 
           Positioned(
             top: 10,
