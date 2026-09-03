@@ -62,7 +62,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const HeaderSection(isRegister: true,),
+                const HeaderSection(isRegister: true),
 
                 SizedBox(height: AppSpacing.lg),
 
@@ -208,7 +208,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ],
                         ),
 
-                        const SizedBox(height: AppSpacing.md),
+                        const SizedBox(height: AppSpacing.mLg),
 
                         BottomTextButton(
                           isRegister: true,
