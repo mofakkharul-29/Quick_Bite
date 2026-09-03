@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/rendering.dart';
 import 'package:quick_bite/core/network/app_exception.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -42,11 +43,14 @@ class AuthRepository {
     String? phone,
   }) async {
     try {
+      debugPrint('before hitting signup');
       final AuthResponse response = await _supabase.auth.signUp(
         email: email,
         password: password,
         data: {'full_name': fullName, 'phone': phone},
       );
+      debugPrint('after hitting signup');
+      debugPrint('name: $fullName\nphone: $phone');
       return response.session;
     } on AuthApiException catch (e) {
       if (e.message.toLowerCase().contains('already registered')) {

@@ -37,6 +37,14 @@ class RegisterFormNotifier extends Notifier<RegisterFormState> {
     state = state.copyWith(phoneError: _validatePhone(phone));
   }
 
+  void updateVisibility() {
+    state = state.copyWith(isVisible: !state.isVisible);
+  }
+
+  void updateConfirmPassVisibility() {
+    state = state.copyWith(isConfirmPassVisible: !state.isConfirmPassVisible);
+  }
+
   String? _validateEmail({required String email}) {
     if (email.isEmpty) {
       return 'Email is required!';

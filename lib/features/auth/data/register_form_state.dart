@@ -6,6 +6,8 @@ class RegisterFormState {
   final String? confirmPassError;
   final String? nameError;
   final String? phoneError;
+  final bool isVisible;
+  final bool isConfirmPassVisible;
 
   const RegisterFormState({
     this.emailError,
@@ -13,6 +15,8 @@ class RegisterFormState {
     this.confirmPassError,
     this.nameError,
     this.phoneError,
+    this.isVisible = false,
+    this.isConfirmPassVisible = false,
   });
 
   RegisterFormState copyWith({
@@ -21,6 +25,8 @@ class RegisterFormState {
     Object? confirmPassError = _unset,
     Object? nameError = _unset,
     Object? phoneError = _unset,
+    bool? isVisible,
+    bool? isConfirmPassVisible,
   }) {
     return RegisterFormState(
       emailError: identical(emailError, _unset)
@@ -38,6 +44,8 @@ class RegisterFormState {
       phoneError: identical(phoneError, _unset)
           ? this.phoneError
           : phoneError as String?,
+      isVisible: isVisible ?? this.isVisible,
+      isConfirmPassVisible: isConfirmPassVisible ?? this.isConfirmPassVisible,
     );
   }
 }

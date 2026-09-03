@@ -3,12 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_bite/core/constants/route_paths.dart';
+import 'package:quick_bite/core/theme/app_colors.dart';
 import 'package:quick_bite/core/theme/app_spacing.dart';
+import 'package:quick_bite/features/auth/providers/auth_controller.dart';
+import 'package:quick_bite/features/auth/providers/register_form_status_provider.dart';
 import 'package:quick_bite/features/auth/widgets/app_divider.dart';
 import 'package:quick_bite/features/auth/widgets/app_form_field.dart';
 import 'package:quick_bite/features/auth/widgets/bottom_text_button.dart';
 import 'package:quick_bite/features/auth/widgets/header_section.dart';
 import 'package:quick_bite/features/auth/widgets/login_buttons.dart';
+import 'package:quick_bite/features/shared/widgets/app_snackbar.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -50,6 +54,26 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final formStatus = ref.watch(registerFormStatusProvider);
+    final formController = ref.read(registerFormStatusProvider.notifier);
+    final asyncAuthController = ref.watch(authControllerProvider);
+
+    ref.listen(authControllerProvider, (previous, next) {
+      if (next is AsyncError) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            AppSnackbar.appSnackbar(
+              text: next.error.toString(),
+              icon: Icons.error_outline_rounded,
+              iconColor: Colors.white,
+              textColor: Colors.white,
+              backgroundColor: AppColors.error,
+            ),
+          );
+      }
+    });
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -77,12 +101,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         AppFormField(
                           controller: _emailController,
                           focusNode: _emailFocus,
-                          errorText: null,
+                          errorText: formStatus.emailError,
                           icon: Icons.email_outlined,
                           labelText: 'Email',
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.done,
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            formController.validateEmail(email: value);
+                          },
                         ),
 
                         const SizedBox(height: AppSpacing.md),
@@ -91,16 +117,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           controller: _passwordController,
                           focusNode: _passwordFocus,
                           labelText: 'Password',
-                          errorText: null,
+                          errorText: formStatus.passwordError,
                           icon: Icons.lock_outline_rounded,
-                          obscureText: false,
-                          // suffixIcon: !formStatus.isPasswordVisible
-                          //     ? Icons.visibility_outlined
-                          //     : Icons.visibility_off_outlined,
+                          obscureText: formStatus.isVisible,
+                          suffixIcon: !formStatus.isVisible
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
                           onChanged: (value) {
-                            // formNotifier.updatePassword(value: value);
+                            formController.validatePassword(password: value);
                           },
-                          // onSuffixTapped: () => formNotifier.updateVisibility(),
+                          onSuffixTapped: () =>
+                              formController.updateVisibility(),
                         ),
 
                         const SizedBox(height: AppSpacing.md),
@@ -109,42 +136,33 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           controller: _confirmPasswordController,
                           focusNode: _confirmPasswordFocus,
                           labelText: 'Confirm Password',
-                          errorText: null,
+                          errorText: formStatus.confirmPassError,
                           icon: Icons.lock_outline_rounded,
-                          obscureText: false,
-                          // suffixIcon: !formStatus.isPasswordVisible
-                          //     ? Icons.visibility_outlined
-                          //     : Icons.visibility_off_outlined,
+                          obscureText: formStatus.isConfirmPassVisible,
+                          suffixIcon: !formStatus.isConfirmPassVisible
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
                           onChanged: (value) {
-                            // formNotifier.updatePassword(value: value);
+                            formController.validateConfirmPassword(
+                              pass: _passwordController.text,
+                              confirmPassword: value,
+                            );
                           },
-                          // onSuffixTapped: () => formNotifier.updateVisibility(),
+                          onSuffixTapped: () =>
+                              formController.updateConfirmPassVisibility(),
                         ),
 
-                        // const SizedBox(height: AppSpacing.sm),
-
-                        // RemForgot(
-                        //   onChanged: (_) {
-                        //     formNotifier.updateCheckbox();
-                        //   },
-                        //   value: formStatus.isRemember,
-                        // ),
                         const SizedBox(height: AppSpacing.md),
 
                         AppFormField(
                           controller: _fullNameController,
                           focusNode: _fullNameFocus,
                           labelText: 'Full Name',
-                          errorText: null,
+                          errorText: formStatus.nameError,
                           icon: Icons.person_outline,
-                          obscureText: false,
-                          // suffixIcon: !formStatus.isPasswordVisible
-                          //     ? Icons.visibility_outlined
-                          //     : Icons.visibility_off_outlined,
                           onChanged: (value) {
-                            // formNotifier.updatePassword(value: value);
+                            formController.validateName(name: value);
                           },
-                          // onSuffixTapped: () => formNotifier.updateVisibility(),
                         ),
 
                         const SizedBox(height: AppSpacing.md),
@@ -153,44 +171,39 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           controller: _phoneController,
                           focusNode: _phoneFocus,
                           labelText: 'Phone',
-                          errorText: null,
+                          errorText: formStatus.phoneError,
                           icon: Icons.phone_android_outlined,
-                          obscureText: false,
-                          // suffixIcon: !formStatus.isPasswordVisible
-                          //     ? Icons.visibility_outlined
-                          //     : Icons.visibility_off_outlined,
+                          keyboardType: TextInputType.number,
                           onChanged: (value) {
-                            // formNotifier.updatePassword(value: value);
+                            formController.validatePhoneNumber(value);
                           },
-                          // onSuffixTapped: () => formNotifier.updateVisibility(),
                         ),
 
                         const SizedBox(height: AppSpacing.md),
 
                         ElevatedButton(
-                          onPressed: () {},
-                          // onPressed: asyncAuthController.isLoading
-                          //     ? null
-                          //     : () async {
-                          //         await ref
-                          //             .read(authControllerProvider.notifier)
-                          //             .login(
-                          //               email: _emailController.text,
-                          //               password: _passwordController.text,
-                          //               isRemember: formStatus.isRemember,
-                          //             );
-                          //       },
-                          child: Text('SignUp'),
-                          // child: asyncAuthController.isLoading
-                          //     ? const SizedBox(
-                          //         height: 20,
-                          //         width: 20,
-                          //         child: CircularProgressIndicator(
-                          //           strokeWidth: 2,
-                          //           color: Colors.white,
-                          //         ),
-                          //       )
-                          //     : Text('Login'),
+                          onPressed: asyncAuthController.isLoading
+                              ? null
+                              : () async {
+                                  await ref
+                                      .read(authControllerProvider.notifier)
+                                      .register(
+                                        email: _emailController.text,
+                                        password: _passwordController.text,
+                                        fullName: _fullNameController.text,
+                                        phone: _phoneController.text,
+                                      );
+                                },
+                          child: asyncAuthController.isLoading
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Text('Sign Up'),
                         ),
 
                         const SizedBox(height: AppSpacing.mLg),
