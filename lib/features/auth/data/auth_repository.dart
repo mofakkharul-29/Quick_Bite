@@ -53,8 +53,12 @@ class AuthRepository {
       debugPrint('name: $fullName\nphone: $phone');
       return response.session;
     } on AuthApiException catch (e) {
+      debugPrint('What happened?: ${e.toString()} and ${e.code}');
       if (e.message.toLowerCase().contains('already registered')) {
         throw const EmailAlreadyInUseException();
+      }
+      if(e.message.toLowerCase().contains('over_email_send_rate_limit')) {
+        throw const EmailRateLimitException();
       }
       throw const ServerException();
     } on SocketException {

@@ -20,6 +20,11 @@ class NetworkException extends AppException {
   const NetworkException() : super('Please check your internet connection.');
 }
 
+class EmailRateLimitException extends AppException {
+  const EmailRateLimitException()
+    : super('Too many attempts. Please try again later.');
+}
+
 class ServerException extends AppException {
   const ServerException() : super('Server error. Please try again later.');
 }
