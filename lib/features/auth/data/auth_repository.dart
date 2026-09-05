@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/rendering.dart';
 import 'package:quick_bite/core/network/app_exception.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -43,21 +42,17 @@ class AuthRepository {
     String? phone,
   }) async {
     try {
-      debugPrint('before hitting signup');
       final AuthResponse response = await _supabase.auth.signUp(
         email: email,
         password: password,
         data: {'full_name': fullName, 'phone': phone},
       );
-      debugPrint('after hitting signup');
-      debugPrint('name: $fullName\nphone: $phone');
       return response.session;
     } on AuthApiException catch (e) {
-      debugPrint('What happened?: ${e.toString()} and ${e.code}');
-      if (e.message.toLowerCase().contains('already registered')) {
+      if (e.code == 'over_email_send_rate_limit') {
         throw const EmailAlreadyInUseException();
       }
-      if(e.message.toLowerCase().contains('over_email_send_rate_limit')) {
+      if (e.message.toLowerCase().contains('over_email_send_rate_limit')) {
         throw const EmailRateLimitException();
       }
       throw const ServerException();
