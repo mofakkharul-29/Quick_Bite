@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quick_bite/core/theme/app_spacing.dart';
-import 'package:quick_bite/features/restaurants/widgets/header.dart';
+import 'package:quick_bite/features/restaurants/widgets/home_header.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -17,9 +17,17 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.all(AppSpacing.sm),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
             child: SingleChildScrollView(
-              child: Column(children: [HomeHeader()]),
+              child: Column(
+                children: [
+                  const HomeHeader(),
+                  // const HomeSearchBar(),
+                  // const CategorySection(),
+                  // const PopularRestaurents(),
+                  // const NearbyRestaurents(),
+                ],
+              ),
             ),
           ),
         ),
