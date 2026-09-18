@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quick_bite/core/theme/app_spacing.dart';
 import 'package:quick_bite/features/restaurants/widgets/home_header.dart';
+import 'package:quick_bite/features/restaurants/widgets/home_search_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -22,7 +23,8 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const HomeHeader(),
-                  // const HomeSearchBar(),
+                  const SizedBox(height: AppSpacing.lg),
+                  const HomeSearchBar(),
                   // const CategorySection(),
                   // const PopularRestaurents(),
                   // const NearbyRestaurents(),
