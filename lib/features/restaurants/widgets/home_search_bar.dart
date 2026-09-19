@@ -25,6 +25,9 @@ class HomeSearchBar extends StatelessWidget {
       onTapOutside: (PointerDownEvent event) {
         FocusManager.instance.primaryFocus?.unfocus();
       },
+      onChanged: (value) {
+        debugPrint(value);
+      },
     );
   }
 }

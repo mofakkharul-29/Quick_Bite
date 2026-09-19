@@ -50,7 +50,7 @@ class HomeHeader extends StatelessWidget {
           text: 'Good morning, Selim 👋',
           style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: AppSpacing.xs),
+        const SizedBox(height: AppSpacing.sm),
         CustomText(
           text: 'What are you craving today?',
           style: textTheme.labelLarge?.copyWith(
