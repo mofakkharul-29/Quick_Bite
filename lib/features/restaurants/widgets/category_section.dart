@@ -14,7 +14,7 @@ class CategorySection extends StatelessWidget {
     final List<CategoryItem> categoryList = const <CategoryItem>[
       CategoryItem(
         path: 'assets/images/categories/burger.png',
-        bgColor: Color.fromARGB(255, 240, 215, 208),
+        bgColor: Color.fromARGB(255, 242, 219, 213),
         name: 'Burger',
       ),
       CategoryItem(
