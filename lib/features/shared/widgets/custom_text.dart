@@ -9,6 +9,7 @@ class CustomText extends StatelessWidget {
   final double? wordSpacing;
   final TextOverflow? overflow;
   final TextStyle? style;
+  final TextAlign? textAlign;
 
   const CustomText({
     super.key,
@@ -20,12 +21,14 @@ class CustomText extends StatelessWidget {
     this.wordSpacing,
     this.overflow,
     this.style,
+    this.textAlign
   });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
+      textAlign: textAlign,
       style: style,
       // style: TextStyle(
       //   fontSize: fontSize,

@@ -22,6 +22,7 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
             child: SingleChildScrollView(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   const HomeHeader(),
                   const SizedBox(height: AppSpacing.lg),
@@ -39,4 +40,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
