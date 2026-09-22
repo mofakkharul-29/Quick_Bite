@@ -4,6 +4,7 @@ import 'package:quick_bite/core/theme/app_spacing.dart';
 import 'package:quick_bite/features/restaurants/widgets/category_section.dart';
 import 'package:quick_bite/features/restaurants/widgets/home_header.dart';
 import 'package:quick_bite/features/restaurants/widgets/home_search_bar.dart';
+import 'package:quick_bite/features/restaurants/widgets/popular_restaurents.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -23,13 +24,15 @@ class HomeScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const HomeHeader(),
                   const SizedBox(height: AppSpacing.lg),
                   const HomeSearchBar(),
-                  const SizedBox(height: AppSpacing.mLg),
+                  const SizedBox(height: AppSpacing.lg),
                   const CategorySection(),
-                  // const PopularRestaurents(),
+                  const SizedBox(height: AppSpacing.sm),
+                  const PopularRestaurents(),
                   // const NearbyRestaurents(),
                 ],
               ),

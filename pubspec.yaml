@@ -69,6 +69,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/categories/
+    - assets/images/popular_rastaurants/
     - assets/icons/
     - .env
 
