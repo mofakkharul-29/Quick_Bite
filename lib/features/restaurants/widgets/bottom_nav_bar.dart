@@ -21,14 +21,30 @@ class BottomNavBar extends ConsumerWidget {
       selectedItemColor: AppColors.primary,
       unselectedItemColor: AppColors.textSecondary,
       items: [
-        BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_border_outlined),
+          icon: Icon(
+            currentIndex == 0 ? Icons.home_filled : Icons.home_outlined,
+          ),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            currentIndex == 1
+                ? Icons.favorite_rounded
+                : Icons.favorite_border_outlined,
+          ),
           label: 'Favorites',
         ),
-        BottomNavigationBarItem(icon: Icon(Icons.today), label: 'Orders'),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
+          icon: Icon(
+            currentIndex == 2
+                ? Icons.assignment_rounded
+                : Icons.assignment_outlined,
+          ),
+          label: 'Orders',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(currentIndex == 3 ? Icons.person : Icons.person_outline),
           label: 'Profile',
         ),
       ],

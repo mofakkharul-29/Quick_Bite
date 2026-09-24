@@ -4,6 +4,7 @@ import 'app_colors.dart';
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
+    splashFactory: NoSplash.splashFactory,
     useMaterial3: true,
 
     colorScheme: const ColorScheme.light(
@@ -116,6 +117,7 @@ class AppTheme {
 
     // Navigation Bar
     navigationBarTheme: NavigationBarThemeData(
+      overlayColor: WidgetStateProperty.all(Colors.transparent),
       backgroundColor: AppColors.surface,
       indicatorColor: AppColors.surfaceVariant,
       labelTextStyle: WidgetStateProperty.all(
