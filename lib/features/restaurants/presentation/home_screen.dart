@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quick_bite/core/theme/app_spacing.dart';
+import 'package:quick_bite/features/restaurants/widgets/bottom_nav_bar.dart';
 import 'package:quick_bite/features/restaurants/widgets/category_section.dart';
 import 'package:quick_bite/features/restaurants/widgets/home_header.dart';
 import 'package:quick_bite/features/restaurants/widgets/home_search_bar.dart';
+import 'package:quick_bite/features/restaurants/widgets/nearby_restaurents.dart';
 import 'package:quick_bite/features/restaurants/widgets/popular_restaurents.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -33,12 +35,14 @@ class HomeScreen extends StatelessWidget {
                   const CategorySection(),
                   const SizedBox(height: AppSpacing.sm),
                   const PopularRestaurents(),
-                  // const NearbyRestaurents(),
+                  const SizedBox(height: AppSpacing.lg),
+                  const NearbyRestaurents(),
                 ],
               ),
             ),
           ),
         ),
+        bottomNavigationBar: const BottomNavBar(),
       ),
     );
   }
